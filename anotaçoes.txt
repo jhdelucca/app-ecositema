@@ -1,0 +1,173 @@
+git remote add origin https://github.com/jhdelucca/test.git
+git push -u origin master
+
+TYPE SCRIPT - Diferença é a tipagem, as variaveis não são mais any, tem que colocar algum tipo nelas.
+
+------------------------------------------------------NodeJs------------------------------------------------------------------------------------------------------
+
+- criar a pasta onde sera o backend
+- npm init -y
+- npm install express
+- type script ao importa express fica com ... e tem que installar @types/express -D
+- node so entende javascript, para rodar arquivos type script instalar: npm install ts-node -D e npm install typescript -D
+- executar npx tsc --init
+- executar npx ts-node <caminho do arquivo com as config iniciais (listen)> no caso src/server.ts /* comando que inicia o servidor */
+- para atualizar em tempo de execução, como se fosse nodemon: npm install ts-node-dev -D
+- para executar o servidor npx ts-node-dev <caminho do arquivo com as config inicial do servidor(listen)> no caso src/server.ts
+- para facilitar botar o caminho acima no script de start para rodar o npm start.
+- configurações iniciais
+- Passos do knex: npm install knex, npm install <banco desejado>.
+- configurar connection de outra maneira.
+- migrations serão criadas na mão. 
+- após, criar o arq knex.file.
+- npx knex --knexfile knexfile.ts migrate:latest, para cada migrations criada, onde knexfile.ts tem botar o caminho onde o arquivo esta.
+- colocar o caminho acima no script knex:migrate para rodar npm run knex:migrate
+- criar seeds. depois de criar cada seed, botar "knex --knexfile knexfile.ts seed:run" no script de knex:seed para rodar npm run knex:seed. Adicionar seed
+no knexfile.
+- colocar imagens na pasta upload, e criar uma rota para podermos acessar a imagem. isso é feito no server.ts
+- ao criar a rota get items, é desejado passar a url da imagem, quando quer passar info para o front diferente da do banco se da o nome de serialização.
+- como a relacao de pontos e itens é N pra N, tem uma tabela pivo que faz as ligações entre elas. Por isso as rotas tem algumas manhas para fazer essa ligação.
+- usar o transaction quando na mesma rota temos varias querys como por exemplo, dois inserts. No caso da inserção de points será assim.
+
+Dia 5-
+-para upload de imagens, que seriam as imagens dos marcadores no app mobile: npm install multer
+- criar arquivo multer.ts e fazer as configurações para receber o arquivo de imagem
+- no routes fazer as alterações para receber o upload da imagem. Será necessario mudar o formato da rota create point, para mult form, pois json nao aceita arquivo.
+- usar celebrate para testar.
+- import errors no server.ts
+
+--------------------------------------------------------React-----------------------------------------------------------------------------------------------------
+caso tenha problemas com a importação do react npm install @types/react @types/react-dom -D
+
+- npx create react-app <nomepasta> no caso web --template=typescript
+- comecar a codificar o home
+- npm install react-icons
+- npm install react-router-dom
+- codificar a home
+- no ponto de coleta: codificar, e abaixo oq foi feito que vale a pena o registro.
+- para integar mapas, usaremos o leaflet. npm install leaflet react-leaflet
+- type script vai precisar de instalar os types do leaflet
+- documentaçao do leaflet ir em tutorial e quick start. Copiar o link do css dele no index.html
+- depois olhar um exemplo do rect-leaflet, no caso peguei o primeiro.
+- adaptar o exemplo de acordo com o que é preciso.
+- para as lat e long e zoom, olhar no google maps, que no endereço da url tem as 3 infos em ordem . TitleLayer é o layout, pegar o do exemplo.
+- type script vc precisa passar o tipo do useState retorna, no caso de items, um array de objeto.
+- api de localidades do ibge pra preencher cidade e estado.
+- usar a tipagem para definir os tipos que as chamadas da api do ibge irá retornar.
+- usar o select/options para selecionar estados, e selecionar as cidades daquele estado.
+- criar o market do map
+- salvar os valores do input
+- fazer com que ao selecionar os itens, eles fiquem verde.
+- chamar api de insert e voltar pra pagina inicial com useHistory()
+
+dia 5
+
+- npm install react-dropzone. Isso faz o upload de imagens ao arrasar,na documentação tem um exemplo basico para iniciar.
+- cria um index para dropzone
+- no dropzone, criar uma url para imagem
+- no createpoint fazer as alterações para inserir com form data, e chamar o dropzone passando as propiedades que quer usar dele.
+
+
+--------------------------------------------------------React Native----------------------------------------------------------------------------------------------
+- expo init <nomepasta>
+- configurar status bar no app.tsx
+- colocar imagens no assets e ir colocando no app
+- instalar fontes do google com expo. expo install expo-font @expo-google-fonts/ubuntu @expo-google-fonts/roboto
+- instalar fontes no app
+- instalar as dependencias do react-navigation.
+- fazer o routes,e no screen options botar o background que servira para todas as telas.
+- no home:codificar e abaixo oq vale o registro:
+- colocar a imagem de background
+- RectButton um estilo de botao para dar efeito de escurecer ao clicar.
+- expo ja tem uma biblioteca de icons
+- criar select de uf e city com uma bibliotecade select
+- <keyboarrd... para que texto nao sobreescreva a aplicação> 
+- no points:codificar e abaixo oq vale o registro:
+- expo install react-native-maps para instalarr lib de mapas
+- usar o MapView do react-native com a e latitude e longitude e deltas para o mapa iniciar em um lugar especifico.
+- expo install react-native-svg para react native conseguir interpretar svgs
+- react native não consegue ler localhost, para usar alterar para ip da maquina la no backend.
+- usar scrol view horizontal, para os itens rolarem de forma horizontal na tela. usar um padding horizontal para ajustar os lados e ficar mais bonito
+- importar marker para marcar no mapa. Latitude longitude necessarios.
+- Dentro do maker image source para o ponto no mapa ter imagem. A partir dessa imagem ter evento de onPress para ir para a tela de detalhe
+- metodos explicados nos comentarios da pagina
+- um if feito de forma diferente no mapview
+- o key do map tem que ser String, padrão do react native.
+- metodos para verificar se itens tao selecionados
+- expo install expo-location para pegar a localizacao da maquina e iniciar no mapa 
+- No detalhe:
+- SafeAreaView ja tem um padding tanto em cima quanto em baixo. Com ele nem precisa de constants
+- useRoute() para pegar os parametros vindo do point, usando route.params
+- expo instal mail-composer para mandar emails
+- import linking para wpp
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+Para chamadas api:
+-npm install axios
+
+
+
+
+
+#page-home {
+  height: 100vh;
+  background: url('../../assets/home-background.svg') no-repeat 45vw 50%;
+}
+/* ... */
+@media (max-width: 85rem), (max-height: 41.25rem) {
+  #page-home {
+    height: 100vh;
+    background: none;
+  }
+}
+
+
+(`import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+
+import success from '../../assets/success.svg'
+
+import './styles.css'
+
+
+const Success = () => {
+    
+    const [tempoRestante, setTempoRestante] = useState<number>(5)
+
+    const history = useHistory();
+
+    const timer = () => {
+    tempoRestante > 0
+      ? setTimeout(() => {
+          setTempoRestante(tempoRestante - 1);
+        }, 1000)
+      : history.push("/");
+  };
+ 
+    useEffect(() => {timer()
+    }, [tempoRestante])
+    return (
+        <div id="success">
+            <div className="content">
+                <img src={success} alt="Sucesso!"/> <br/> <br/>
+                <span>Ponto de Coleta Cadastado com Sucesso!</span> <br/>
+               <span>Tempo restante {tempoRestante}s</span>
+               
+            </div>
+        </div>
+    )
+}
+export default Success)           
+
+
+  "name" : "Teste 2",
+  "email" : "teste@hotmail.com",
+  "whatsapp" : "31984413888",
+  "latitude" : -46.81213,
+  "longitude" : -34.77644,
+  "city" : "Belo Horizonte",
+  "uf" : "MG",
+  "items" : [1,4,5]                                        
